@@ -20,13 +20,17 @@ toggleButton.MouseButton1Click:Connect(function()
     toggleButton.Text = autoUseEnabled and "Auto-Use: ON" or "Auto-Use: OFF"
 
     if autoUseEnabled then
-        spawn(function()
+        task.spawn(function()
             while autoUseEnabled do
-                local tool = backpack:FindFirstChild(Paintball-Pistole) or character:FindFirstChild(Paintball-Pistole)
+                local tool =
+                    backpack:FindFirstChild(itemName) or
+                    character:FindFirstChild(itemName)
+
                 if tool then
                     tool:Activate()
                 end
-                wait(0.03) 
+
+                task.wait(0.03)
             end
         end)
     end
