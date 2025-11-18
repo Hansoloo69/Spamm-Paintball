@@ -1,6 +1,6 @@
 local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
-local backpack = player.Backpack
+local backpack = player:WaitForChild("Backpack")
 
 -- GUI erstellen
 local screenGui = Instance.new("ScreenGui")
@@ -22,16 +22,26 @@ toggleButton.MouseButton1Click:Connect(function()
     if autoUseEnabled then
         task.spawn(function()
             while autoUseEnabled do
-                local tool =
-                    backpack:FindFirstChild(itemName) or
-                    character:FindFirstChild(itemName)
+                -- Tool suchen
+                local tool = character:FindFirstChild(itemName) or backpack:FindFirstChild(itemName)
+                
+                if tool and tool:IsA("Tool") then
+                    -- Tool ausrüsten, falls im Backpack
+                    if tool.Parent ~= character then
+                        tool.Parent = character
+                        -- Warten, bis das Tool wirklich ausgerüstet ist
+                        repeat task.wait() until tool.Parent == character
+                    end
 
-                if tool then
-                    tool:Activate()
+                    -- Tool aktivieren / benutzen
+                    pcall(function()
+                        tool:Activate()
+                    end)
                 end
 
-                task.wait(0.03)
+                task.wait(0.001) -- kurze Pause zwischen Aktivierungen, damit es nicht zu schnell schießt
             end
         end)
     end
 end)
+
