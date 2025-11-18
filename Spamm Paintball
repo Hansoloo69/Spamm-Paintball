@@ -1,0 +1,33 @@
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local backpack = player.Backpack
+
+-- GUI erstellen
+local screenGui = Instance.new("ScreenGui")
+screenGui.Parent = player:WaitForChild("PlayerGui")
+
+local toggleButton = Instance.new("TextButton")
+toggleButton.Size = UDim2.new(0, 200, 0, 50)
+toggleButton.Position = UDim2.new(0.5, -100, 0.9, -25)
+toggleButton.Text = "Auto-Use: OFF"
+toggleButton.Parent = screenGui
+
+local autoUseEnabled = false
+local itemName = "Paintball-Pistole"
+
+toggleButton.MouseButton1Click:Connect(function()
+    autoUseEnabled = not autoUseEnabled
+    toggleButton.Text = autoUseEnabled and "Auto-Use: ON" or "Auto-Use: OFF"
+
+    if autoUseEnabled then
+        spawn(function()
+            while autoUseEnabled do
+                local tool = backpack:FindFirstChild(Paintball-Pistole) or character:FindFirstChild(Paintball-Pistole)
+                if tool then
+                    tool:Activate()
+                end
+                wait(0.03) 
+            end
+        end)
+    end
+end)
