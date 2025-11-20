@@ -38,7 +38,7 @@ toggleButton.MouseButton1Click:Connect(function()
                     end)
                 end
 
-                task.wait(0.001)
+                task.wait(0.5)
             end
         end)
     end
